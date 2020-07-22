@@ -58,10 +58,7 @@ dependencies {
 			files(compileTestSubjectsJava.map { it.outputs.files.first() })
 	)
 
-	annotationProcessor(
-			"com.uber.nullaway:nullaway:0.7.10"
-	)
-
+	annotationProcessor "com.uber.nullaway:nullaway:0.7.10"
 	// Optional, some source of nullability annotations.
 	// Not required on Android if you use the support
 	// library nullability annotations.
@@ -74,16 +71,20 @@ dependencies {
 
 import net.ltgt.gradle.errorprone.CheckSeverity
 
+tasks.withType(JavaCompile).configureEach{
+	options.errorprone.disableWarningsInGeneratedCode = true
+	options.errorprone.disableAllChecks = true;
+}
+
 tasks.withType(JavaCompile) {
 	// remove the if condition if you want to run NullAway on test code
 	if (!name.toLowerCase().contains("test")) {
 		options.errorprone {
-			check("NullAway", CheckSeverity.WARN)
-			option("NullAway:AnnotatedPackages", "com.uber")
+			check("NullAway", CheckSeverity.ERROR)
+			option("NullAway:AnnotatedPackages", "com.ibm.wala")
 		}
 	}
 }
-
 
 tasks.named('javadoc') {
 	classpath += files project(':com.ibm.wala.dalvik').tasks.named('compileJava', JavaCompile)
