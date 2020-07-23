@@ -104,6 +104,7 @@ tasks.withType(JavaCompile) {
 		options.errorprone {
 			check("NullAway", CheckSeverity.ERROR)
 			option("NullAway:AnnotatedPackages", "com.ibm.wala")
+			option("NullAway:AutoFix", "true")
 		}
 	}
 }
