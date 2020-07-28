@@ -19,6 +19,7 @@ apply plugin: 'edu.ucr.cs.riple.plugin'
 autoFixMode {
 	fixPath = "/tmp/NullAwayFix"
 	maximumRound = 1
+	formatTask = "goJF"
 }
 
 eclipse {
