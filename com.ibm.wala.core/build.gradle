@@ -107,6 +107,7 @@ tasks.withType(JavaCompile) {
 			option("NullAway:AnnotatedPackages", "com.ibm.wala")
 			option("NullAway:AutoFix", "true")
 		}
+		options.compilerArgs << "-Xmaxerrs" << "1000"
 	}
 }
 
