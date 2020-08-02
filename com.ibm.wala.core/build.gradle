@@ -18,7 +18,7 @@ apply plugin: 'edu.ucr.cs.riple.plugin'
 
 autoFixMode {
 	fixPath = "/tmp/NullAwayFix"
-	maximumRound = 1
+	maximumRound = 10
 	formatTask = "goJF"
 }
 
@@ -107,7 +107,7 @@ tasks.withType(JavaCompile) {
 			option("NullAway:AnnotatedPackages", "com.ibm.wala")
 			option("NullAway:AutoFix", "true")
 		}
-		options.compilerArgs << "-Xmaxerrs" << "1000"
+		options.compilerArgs << "-Xmaxerrs" << "100000"
 	}
 }
 
