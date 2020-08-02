@@ -18,7 +18,7 @@ apply plugin: 'edu.ucr.cs.riple.plugin'
 
 autoFixMode {
 	fixPath = "/tmp/NullAwayFix"
-	maximumRound = 10
+	maximumRound = 100
 	formatTask = "goJF"
 }
 
