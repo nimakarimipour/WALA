@@ -1,5 +1,61 @@
+import org.gradle.api.tasks.compile.JavaCompile
+import net.ltgt.gradle.errorprone.CheckSeverity
+
+buildscript {
+	repositories {
+		mavenLocal()
+	}
+	dependencies {
+		classpath 'edu.ucr.cs.riple:NullAwayAutoFixer:1.0-SNAPSHOT'
+	}
+}
+
+
 plugins {
+	id 'java'
 	id 'eclipse'
+	id "net.ltgt.errorprone" version "0.6"
+}
+
+apply plugin: 'edu.ucr.cs.riple.plugin'
+
+autoFixMode {
+	fixPath = "/tmp/NullAwayFix"
+	maximumRound = 100
+	formatTask = "goJF"
+}
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+dependencies{
+	annotationProcessor "edu.ucr.cs.riple:nullaway:0.7.12-SNAPSHOT"
+	// Optional, some source of nullability annotations.
+	// Not required on Android if you use the support
+	// library nullability annotations.
+	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
+
+	errorprone "com.google.errorprone:error_prone_core:2.4.0"
+	errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
+}
+
+tasks.withType(JavaCompile).configureEach{
+	options.errorprone.disableWarningsInGeneratedCode = true
+	options.errorprone.disableAllChecks = true;
+}
+
+tasks.withType(JavaCompile) {
+	// remove the if condition if you want to run NullAway on test code
+	if (!name.toLowerCase().contains("test")) {
+		options.errorprone {
+			check("NullAway", CheckSeverity.ERROR)
+			option("NullAway:AnnotatedPackages", "com.ibm.wala")
+			option("NullAway:AutoFix", "true")
+		}
+		options.compilerArgs << "-Xmaxerrs" << "100000"
+	}
 }
 
 eclipse.project.natures 'org.eclipse.pde.PluginNature'
