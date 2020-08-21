@@ -1,26 +1,26 @@
-//buildscript {
-//	repositories {
-//		mavenLocal()
-//	}
-//	dependencies {
-//		classpath 'edu.ucr.cs.riple:NullAwayAutoFixer:1.0-SNAPSHOT'
-//	}
-//}
+buildscript {
+	repositories {
+		mavenLocal()
+	}
+	dependencies {
+		classpath 'edu.ucr.cs.riple:NullAwayAutoFixer:1.0-SNAPSHOT'
+	}
+}
 
 
 plugins {
-//	id 'java'
+	id 'java'
 	id 'eclipse'
-//	id "net.ltgt.errorprone" version "0.6"
+	id "net.ltgt.errorprone" version "0.6"
 }
 
-//apply plugin: 'edu.ucr.cs.riple.plugin'
+apply plugin: 'edu.ucr.cs.riple.plugin'
 
-//autoFixMode {
-//	fixPath = "/tmp/NullAwayFix"
-//	maximumRound = 100
-//	formatTask = "goJF"
-//}
+autoFixMode {
+	fixPath = "/tmp/NullAwayFix"
+	maximumRound = 100
+	formatTask = "goJF"
+}
 
 eclipse {
 	project.natures 'org.eclipse.pde.PluginNature'
@@ -81,35 +81,35 @@ dependencies {
 			files(compileTestSubjectsJava.map { it.outputs.files.first() })
 	)
 
-//	annotationProcessor "edu.ucr.cs.riple:nullaway:0.7.12-SNAPSHOT"
-//	// Optional, some source of nullability annotations.
-//	// Not required on Android if you use the support
-//	// library nullability annotations.
-//	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
-//
-//	errorprone "com.google.errorprone:error_prone_core:2.4.0"
-//	errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
+	annotationProcessor "edu.ucr.cs.riple:nullaway:0.7.12-SNAPSHOT"
+	// Optional, some source of nullability annotations.
+	// Not required on Android if you use the support
+	// library nullability annotations.
+	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
+
+	errorprone "com.google.errorprone:error_prone_core:2.4.0"
+	errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
 
 }
 
-//import net.ltgt.gradle.errorprone.CheckSeverity
+import net.ltgt.gradle.errorprone.CheckSeverity
 
-//tasks.withType(JavaCompile).configureEach{
-//	options.errorprone.disableWarningsInGeneratedCode = true
-//	options.errorprone.disableAllChecks = true;
-//}
+tasks.withType(JavaCompile).configureEach{
+	options.errorprone.disableWarningsInGeneratedCode = true
+	options.errorprone.disableAllChecks = true;
+}
 
-//tasks.withType(JavaCompile) {
-//	// remove the if condition if you want to run NullAway on test code
-//	if (!name.toLowerCase().contains("test")) {
-//		options.errorprone {
-//			check("NullAway", CheckSeverity.ERROR)
-//			option("NullAway:AnnotatedPackages", "com.ibm.wala")
-//			option("NullAway:AutoFix", "true")
-//		}
-//		options.compilerArgs << "-Xmaxerrs" << "100000"
-//	}
-//}
+tasks.withType(JavaCompile) {
+	// remove the if condition if you want to run NullAway on test code
+	if (!name.toLowerCase().contains("test")) {
+		options.errorprone {
+			check("NullAway", CheckSeverity.ERROR)
+			option("NullAway:AnnotatedPackages", "com.ibm.wala")
+			option("NullAway:AutoFix", "true")
+		}
+		options.compilerArgs << "-Xmaxerrs" << "100000"
+	}
+}
 
 tasks.named('javadoc') {
 	classpath += files project(':com.ibm.wala.dalvik').tasks.named('compileJava', JavaCompile)
