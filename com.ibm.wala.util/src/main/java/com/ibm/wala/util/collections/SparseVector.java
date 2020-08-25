@@ -50,7 +50,7 @@ public class SparseVector<T> implements IVector<T>, Serializable {
    * @see com.ibm.wala.util.intset.IntVector#get(int)
    */
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "NullAway"})
   public T get(int x) {
     int index = indices.getIndex(x);
     if (index == -1) {

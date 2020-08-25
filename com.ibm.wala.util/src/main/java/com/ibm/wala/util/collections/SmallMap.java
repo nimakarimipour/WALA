@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
  * A simple implementation of Map; intended for Maps with few elements. Optimized for space, not
@@ -33,7 +34,7 @@ public class SmallMap<K, V> implements Map<K, V> {
   // this Map contains keysAndValues.length / 2 entries.
   // in the following array, entries 0 ... keysAndValues.length/2 - 1 are keys.
   // entries keysAndValues.length/2 .. keysAndValues.length are values.
-  private Object[] keysAndValues;
+  @Nullable private Object[] keysAndValues;
 
   /*
    */
@@ -129,15 +130,14 @@ public class SmallMap<K, V> implements Map<K, V> {
    */
   @Override
   @SuppressWarnings("unchecked")
+  @Nullable
   public V get(Object key) {
-
     if (key != null)
       for (int i = 0; i < size(); i++) {
         if (keysAndValues[i] != null && keysAndValues[i].equals(key)) {
           return (V) keysAndValues[size() + i];
         }
       }
-
     return null;
   }
 
@@ -165,7 +165,7 @@ public class SmallMap<K, V> implements Map<K, V> {
    * @see java.util.Map#put(java.lang.Object, java.lang.Object)
    */
   @Override
-  @SuppressWarnings({"unchecked", "unused"})
+  @SuppressWarnings({"unchecked", "unused", "NullAway"})
   public V put(Object key, Object value) {
     if (key == null) {
       throw new IllegalArgumentException("null key");

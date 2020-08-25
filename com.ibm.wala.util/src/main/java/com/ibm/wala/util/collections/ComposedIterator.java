@@ -11,12 +11,13 @@
 package com.ibm.wala.util.collections;
 
 import java.util.Iterator;
+import javax.annotation.Nullable;
 
 /** A 2-level iterator. has not been tested yet! */
 public abstract class ComposedIterator<O, I> implements Iterator<I> {
 
   private final Iterator<O> outer;
-  private Iterator<? extends I> inner;
+  @Nullable private Iterator<? extends I> inner;
 
   public ComposedIterator(Iterator<O> outer) {
     this.outer = outer;
@@ -48,6 +49,7 @@ public abstract class ComposedIterator<O, I> implements Iterator<I> {
   }
 
   @Override
+  @SuppressWarnings("NullAway") // todo: check is done un hasNext method.
   public I next() {
     I result = inner.next();
     if (!inner.hasNext()) {

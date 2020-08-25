@@ -15,6 +15,7 @@ import com.ibm.wala.util.math.Logs;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Vector;
+import javax.annotation.Nullable;
 
 /** An {@link IVector} implementation which delegates to pages of int vectors. */
 public class TwoLevelVector<T> implements IVector<T>, Serializable {
@@ -33,6 +34,8 @@ public class TwoLevelVector<T> implements IVector<T>, Serializable {
   /*
    * @see com.ibm.wala.util.intset.IntVector#get(int)
    */
+  @SuppressWarnings("NullAway") // todo: superclass should return Nullable
+  @Nullable
   @Override
   public T get(int x) {
     if (x < 0) {
@@ -112,6 +115,8 @@ public class TwoLevelVector<T> implements IVector<T>, Serializable {
     return new Iterator<T>() {
       final Iterator<SparseVector<T>> outer = data.iterator();
 
+      @SuppressWarnings("NullAway") // todo: cant add annotation here
+      @Nullable
       Iterator<T> inner;
 
       {
@@ -132,6 +137,7 @@ public class TwoLevelVector<T> implements IVector<T>, Serializable {
         return inner != null;
       }
 
+      @SuppressWarnings("NullAway")
       @Override
       public T next() {
         T result = inner.next();
