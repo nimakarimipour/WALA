@@ -417,12 +417,12 @@ public abstract class Dominators<T> {
     /*
      * The result of this computation: the immediate dominator of this node
      */
-    private T dominator;
+    @Nullable private T dominator;
 
     /*
      * The parent node in the DFS tree used in dominator computation
      */
-    private T parent;
+    @Nullable private T parent;
 
     /*
      * the ``semi-dominator,'' which starts as the DFS number in step 1
@@ -442,7 +442,7 @@ public abstract class Dominators<T> {
     /*
      * ancestor for fast union-find data structure
      */
-    private T ancestor;
+    @Nullable private T ancestor;
 
     /*
      * the size used by the fast union-find structure
@@ -452,7 +452,7 @@ public abstract class Dominators<T> {
     /*
      * the child used by the fast union-find structure
      */
-    private T child;
+    @Nullable private T child;
 
     DominatorInfo(T node) {
       semiDominator = 0;
