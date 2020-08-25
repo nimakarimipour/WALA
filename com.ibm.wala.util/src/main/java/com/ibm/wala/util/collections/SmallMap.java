@@ -93,9 +93,10 @@ public class SmallMap<K, V> implements Map<K, V> {
    * @see java.util.Map#containsKey(java.lang.Object)
    */
   @Override
+  @SuppressWarnings("NullAway")
   public boolean containsKey(Object key) {
     for (int i = 0; i < size(); i++) {
-      if (keysAndValues[i].equals(key)) {
+      if (keysAndValues[i].equals(key)) { // todo: Real error should be checked
         return true;
       }
     }
@@ -129,9 +130,9 @@ public class SmallMap<K, V> implements Map<K, V> {
    * @see java.util.Map#get(java.lang.Object)
    */
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "NullAway"})
   @Nullable
-  public V get(Object key) {
+  public V get(Object key) { // todo: Real error, keysAndValues should be checked
     if (key != null)
       for (int i = 0; i < size(); i++) {
         if (keysAndValues[i] != null && keysAndValues[i].equals(key)) {

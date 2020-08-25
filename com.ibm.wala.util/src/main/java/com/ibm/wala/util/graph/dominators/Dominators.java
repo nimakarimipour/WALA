@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
  * Calculate dominators using Langauer and Tarjan's fastest algorithm. TOPLAS 1(1), July 1979. This
@@ -327,6 +328,7 @@ public abstract class Dominators<T> {
    * @param node the node to evaluate
    * @return the node as described above
    */
+  @Nullable
   private T EVAL(T node) {
     if (DEBUG) {
       System.out.println("  Evaling " + node);
@@ -435,7 +437,7 @@ public abstract class Dominators<T> {
     /*
      * the labels used in the fast union-find structure
      */
-    private T label;
+    @Nullable private T label;
 
     /*
      * ancestor for fast union-find data structure
@@ -502,12 +504,13 @@ public abstract class Dominators<T> {
     getInfo(node).ancestor = ancestor;
   }
 
+  @Nullable
   private T getLabel(T node) {
     if (node == null) return null;
     else return getInfo(node).label;
   }
 
-  private void setLabel(T node, T label) {
+  private void setLabel(T node, @Nullable T label) {
     getInfo(node).label = label;
   }
 
@@ -528,7 +531,7 @@ public abstract class Dominators<T> {
     getInfo(node).child = child;
   }
 
-  private int getSemi(T node) {
+  private int getSemi(@Nullable T node) {
     if (node == null) return 0;
     else return getInfo(node).semiDominator;
   }
