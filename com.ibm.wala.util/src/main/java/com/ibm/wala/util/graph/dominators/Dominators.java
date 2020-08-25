@@ -372,7 +372,7 @@ public abstract class Dominators<T> {
     if (DEBUG) {
       System.out.println("  Linking " + node1 + " with " + node2);
     }
-    T s = node2;
+    @Nullable T s = node2;
     while (getSemi(getLabel(node2)) < getSemi(getLabel(getChild(s)))) {
       if (getSize(s) + getSize(getChild(getChild(s))) >= 2 * getSize(getChild(s))) {
         setAncestor(getChild(s), s);
@@ -454,7 +454,7 @@ public abstract class Dominators<T> {
      */
     @Nullable private T child;
 
-    DominatorInfo(T node) {
+    DominatorInfo(@Nullable T node) {
       semiDominator = 0;
       dominator = null;
       parent = null;
@@ -469,7 +469,7 @@ public abstract class Dominators<T> {
   /*
    * Look-aside table for DominatorInfo objects
    */
-  protected abstract DominatorInfo getInfo(T node);
+  protected abstract DominatorInfo getInfo(@Nullable T node);
 
   private Iterator<T> iterateBucket(T node) {
     return getInfo(node).bucket.iterator();
@@ -479,15 +479,17 @@ public abstract class Dominators<T> {
     getInfo(node).bucket.add(addend);
   }
 
-  private T getDominator(T node) {
+  @Nullable
+  private T getDominator(@Nullable T node) {
     assert node != null;
     return getInfo(node).dominator;
   }
 
-  private void setDominator(T node, T dominator) {
+  private void setDominator(T node, @Nullable T dominator) {
     getInfo(node).dominator = dominator;
   }
 
+  @Nullable
   private T getParent(T node) {
     return getInfo(node).parent;
   }
@@ -496,38 +498,40 @@ public abstract class Dominators<T> {
     getInfo(node).parent = parent;
   }
 
-  private T getAncestor(T node) {
+  @Nullable
+  private T getAncestor(@Nullable T node) {
     return getInfo(node).ancestor;
   }
 
-  private void setAncestor(T node, T ancestor) {
+  private void setAncestor(@Nullable T node, @Nullable T ancestor) {
     getInfo(node).ancestor = ancestor;
   }
 
   @Nullable
-  private T getLabel(T node) {
+  private T getLabel(@Nullable T node) {
     if (node == null) return null;
     else return getInfo(node).label;
   }
 
-  private void setLabel(T node, @Nullable T label) {
+  private void setLabel(@Nullable T node, @Nullable T label) {
     getInfo(node).label = label;
   }
 
-  private int getSize(T node) {
+  private int getSize(@Nullable T node) {
     if (node == null) return 0;
     else return getInfo(node).size;
   }
 
-  private void setSize(T node, int size) {
+  private void setSize(@Nullable T node, int size) {
     getInfo(node).size = size;
   }
 
-  private T getChild(T node) {
+  @Nullable
+  private T getChild(@Nullable T node) {
     return getInfo(node).child;
   }
 
-  private void setChild(T node, T child) {
+  private void setChild(@Nullable T node, @Nullable T child) {
     getInfo(node).child = child;
   }
 
